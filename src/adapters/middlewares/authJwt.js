@@ -17,11 +17,31 @@ const verifyToken = (req, res, next) => {
 
   
   jwt.verify(token, config.jwtSecret, (err, decoded) => {
-    if (err) return res.status(401).json({ message: 'Unauthorized!' });
+    if (err) {
+      if (err.name === 'TokenExpiredError') {
+        return res.status(401).json({ message: 'Token expired!' });
+      }
+      return res.status(401).json({ message: 'Unauthorized!' });
+    }
+
     req.userId = decoded.id;
     req.userRoles = decoded.roles;
     next();
   });
+
 };
 
-module.exports = { verifyToken };
+const isAdmin = (req, res, next) => {
+  
+  if (!req.userRoles || !Array.isArray(req.userRoles) || !req.userRoles.includes('admin')) {
+    return res.status(403).json({ message: 'Acceso denegado: Requiere el rol de Administrador.' });
+  }
+  next(); 
+};
+
+module.exports = {
+  verifyToken,
+  isAdmin 
+};
+
+

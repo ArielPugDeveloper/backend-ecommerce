@@ -2,9 +2,9 @@ const mysql = require('mysql2/promise');
 
 const pool = mysql.createPool({
   host: 'localhost',
-  port: 3000,
-  user: 'usuario',
-  password: 'contraseña',
+  port: 3306,
+  user: 'root',
+  password: 'Comidarica15#',
   database: 'ecommerce',
   waitForConnections: true,
   charset: 'utf8mb4_general_ci',

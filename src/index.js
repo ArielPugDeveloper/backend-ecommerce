@@ -12,7 +12,7 @@ const MongoUserRepository     = require('./infraestructure/repositories/MongoUse
 const PasswordHasher          = require('./infraestructure/services/PasswordHasher');
 const TokenGenerator          = require('./infraestructure/services/TokenGenerator');
 const SignIn                  = require('./application/useCases/SignIn');
-const authRoutes              = require('./adapters/routes/authRoutes');
+const authRoutes              = require('./adapters/routes/AuthRoutes');
 const userRoutes          = require('./adapters/routes/userRoutes');
 const SignUp              = require('./application/useCases/SignUp');
  

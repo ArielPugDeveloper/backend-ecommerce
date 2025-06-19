@@ -1,33 +1,16 @@
 const express = require('express');
-const router = express.Router();
+const { Router } = require('express');
+const { verifyToken, isAdmin } = require('../middlewares/authJwt'); 
 
 module.exports = (productController) => {
-  /*
- * @swagger
- * tags:
- *   name: Products
- *   description: Gestión de productos
- */
+  const router = Router(); // Instancia el router
 
-/*
- * @swagger
- * /api/products:
- *   get:
- *     summary: Obtiene todos los productos
- *     tags: [Products]
- *     responses:
- *       200:
- *         description: Lista de productos
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 $ref: '#/components/schemas/Product'
- */
+
   router.get('/', (req, res) => productController.getAll(req, res));
-  router.post('/', (req, res) => productController.create(req, res));
-  router.get('/:idproducto', (req, res) => productController.getAll(req, res));
+
+  router.post('/', [verifyToken, isAdmin], (req, res) => productController.create(req, res));
+
+  router.get('/:idproducto', (req, res) => productController.getById(req, res)); 
 
 
   return router;
